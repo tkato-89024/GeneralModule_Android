@@ -1,0 +1,2 @@
+include ':general-module'
+rootProject.name='GeneralModule'

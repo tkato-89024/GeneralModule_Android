@@ -1,0 +1,68 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // 作成したaar内のclasses.jarに画像ファイルを含める必要がなければこれで除外
+    packagingOptions {
+        exclude 'assets/*'
+    }
+
+
+    def i = 0
+    libraryVariants.all { variant ->
+        variant.outputs.all {
+
+            // variant.name: 'debug' or 'release'
+            // println "variant.name = ${variant.name}"
+
+            def str = outputFileName.toString()
+            def idx = str.indexOf("-${variant.name}")
+            // def len = str.length()
+
+            def moduleName = str.substring(0, idx)
+
+            // println "moduleName = ${moduleName}"
+
+            def suffix
+            if (variant.name == android.buildTypes.release.name) {
+                suffix = "-${android.defaultConfig.versionName}.aar"
+            } else {
+                suffix = "-${variant.name}-${android.defaultConfig.versionName}.aar"
+            }
+
+            outputFileName = "${moduleName}${suffix}"
+
+            // println "outputFileName  = ${outputFileName}"
+        }
+    }
+}
+
+dependencies {
+    // https://qiita.com/darquro/items/5fceff5cdfbad72e83cb
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
