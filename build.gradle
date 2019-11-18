@@ -7,11 +7,28 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.2'
         
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+
+    ext.buildConfig = [
+        'compileSdk':        29,
+        'minSdk':            21,
+        'targetSdk':         29,
+        'buildToolsVersion': '29.0.2',
+        'versionCode':       1,
+        'versionName':       '1.0.0',
+    ]
+
+    ext.versions = [
+        'appcompat':   '1.1.0', // androidx
+        'junit':       '4.12',
+        'junitTest':   '1.1.1',
+        'espresso':    '3.2.0',
+        'jackson':     '2.4.4',
+    ]
 }
 
 allprojects {
