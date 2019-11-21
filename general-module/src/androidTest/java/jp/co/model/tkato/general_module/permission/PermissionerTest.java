@@ -4,7 +4,6 @@ import android.Manifest;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,7 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.concurrent.CountDownLatch;
+import jp.co.model.tkato.general_module.base.BaseInstrumentedTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -28,7 +27,7 @@ import static org.junit.Assert.fail;
 
 @LargeTest // 時間のかかるテスト
 @RunWith(AndroidJUnit4.class)
-public class PermissionerTest implements View.OnClickListener, ActivityScenario.ActivityAction<PermissionerTestActivity> {
+public class PermissionerTest extends BaseInstrumentedTest implements View.OnClickListener, ActivityScenario.ActivityAction<PermissionerTestActivity> {
 
     // region member / setup / tearDown
 
@@ -36,16 +35,13 @@ public class PermissionerTest implements View.OnClickListener, ActivityScenario.
     @Rule
     public ActivityScenarioRule<PermissionerTestActivity> rule = new ActivityScenarioRule<>(PermissionerTestActivity.class);
 
-    private Permissioner   permissioner;
-    private CountDownLatch latch;
+    private Permissioner permissioner;
 
+    @Override
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
         permissioner = null;
-        if (null != latch) {
-            countFinish(latch);
-            latch = null;
-        }
+        super.tearDown();
     }
 
     // endregion member / setup / tearDown
@@ -115,7 +111,7 @@ public class PermissionerTest implements View.OnClickListener, ActivityScenario.
         // 5. もう一度、カメラ権限、ストレージ書込権限の許可ダイアログが表示されるので、どちらも許可
         // 6. テスト完了
 
-        latch = new CountDownLatch(1);
+        countSetup(1);
 
         rule.getScenario().onActivity(activity -> {
 
@@ -151,21 +147,22 @@ public class PermissionerTest implements View.OnClickListener, ActivityScenario.
                     self.request(activity_);
                 })
             ;
-            activity.setTestParameter(permissioner, latch);
+            activity.setTestParameter(permissioner, getLatch());
             permissioner.request(activity);
         });
 
-        latch.await();
+        getLatch().await();
     }
 
     // region 通知アクセステスト
 
+    @SuppressWarnings("all") // Statement lambda can be replaced with expression lambda
     @Test
     public void test_isGrantedNotificationListener() throws InterruptedException {
 
         // 通知許可するまでテストをリトライする（5 回まで）
 
-        latch = new CountDownLatch(5);
+        countSetup(5);
 
         rule.getScenario().onActivity((activity) -> {
 
@@ -177,7 +174,7 @@ public class PermissionerTest implements View.OnClickListener, ActivityScenario.
 
             if (isGrantedNotificationListener) {
                 assertTrue(true);
-                countFinish(latch);
+                countFinish();
                 return;
             }
 
@@ -189,9 +186,10 @@ public class PermissionerTest implements View.OnClickListener, ActivityScenario.
             }, 1500);
         });
 
-        latch.await();
+        getLatch().await();
     }
 
+    @SuppressWarnings("all") // Statement lambda can be replaced with expression lambda
     @Override
     public void perform(PermissionerTestActivity activity) {
 
@@ -201,20 +199,19 @@ public class PermissionerTest implements View.OnClickListener, ActivityScenario.
 
         if (isGrantedNotificationListener) {
             assertTrue(true);
-            countFinish(latch);
+            countFinish();
             return;
         }
 
-        final long count = latch.getCount() - 1;
+        final long count = getLatch().getCount() - 1;
         if (0L >= count) {
             fail();
             return;
         }
-        latch.countDown();
+        getLatch().countDown();
 
         final String msg = "通知アクセス未許可\n残り試行回数: " + count;
         Toast.makeText(activity.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-        Log.w(">>>>>", msg);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Permissioner.openSettingForNotificationListener(activity, 1);
@@ -234,16 +231,6 @@ public class PermissionerTest implements View.OnClickListener, ActivityScenario.
     public void onClick(View view) {
         // テスト強制終了ボタンの処理
         fail();
-    }
-
-    private void countFinish(CountDownLatch latch) {
-        if (null == latch) {
-            return;
-        }
-        final int len = (int) latch.getCount();
-        for (int i = 0; i < len; i++) {
-            latch.countDown();
-        }
     }
 
     // endregion 非テスト（補助処理）

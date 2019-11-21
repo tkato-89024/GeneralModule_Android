@@ -1,11 +1,12 @@
 package jp.co.model.tkato.general_module.permission;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -185,13 +186,24 @@ public final class Permissioner {
     @SuppressWarnings("UnusedReturnValue")
     public boolean request(@NonNull final Activity activity) {
 
-        // サポートライブラリが使用できない端末で必要だった処理
-        // if (selfVersionLessThanM()) {
-        //     if (null != successListener) {
-        //         successListener.run(this, activity);
-        //     }
-        //     return true;
-        // }
+        // 1. Android6 未満では requestPermission に反応がない（処理は実装されているが）
+        // 2. ActivityCompat.requestPermissions 内の処理は、Android 6 未満の場合
+        //    OnRequestPermissionsResultCallback が実装されていない場合は機能しないので
+        //    その時はリスナーを直接実行する
+        // 3. リスナーの Null チェック
+
+        if (   selfVersionLessThanM()
+            && !(activity instanceof ActivityCompat.OnRequestPermissionsResultCallback)
+            && null != successListener
+        ) {
+            // UI スレッド上での実行
+            if (Thread.currentThread() == Looper.getMainLooper().getThread()) {
+                successListener.run(this, activity);
+            } else {
+                new Handler(Looper.getMainLooper()).post(() -> successListener.run(this, activity));
+            }
+            return true;
+        }
 
         try {
             ActivityCompat.requestPermissions(activity, permissionList.toArray(new String[0]), requestCode);
