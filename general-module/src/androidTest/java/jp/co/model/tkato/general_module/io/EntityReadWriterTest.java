@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.MediumTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,9 +18,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+@MediumTest // 1,000 ms 未満で終わるようなテスト
 @RunWith(AndroidJUnit4.class)
 public class EntityReadWriterTest {
 
@@ -104,7 +105,7 @@ public class EntityReadWriterTest {
 
     // endregion テスト用エンティティ
 
-    // region setup / tearDown;
+    // region member / setup / tearDown
 
     private Context appContext;
     private EntityReadWriter instance;
@@ -125,7 +126,7 @@ public class EntityReadWriterTest {
         appContext = null;
     }
 
-    // endregion setup / tearDown;
+    // endregion member / setup / tearDown
 
     // region 通常テスト
 

@@ -1,19 +1,18 @@
 package jp.co.model.tkato.general_module.cipher;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.SmallTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+@SmallTest // 200 ms 未満で終わるようなテスト
 @RunWith(AndroidJUnit4.class)
 public class CiphererInstrumentedTest {
+
+    // region member / setup / tearDown
 
     private final String password     = "iognkd";
     private final String decodeResult = "fags";
@@ -25,6 +24,10 @@ public class CiphererInstrumentedTest {
 
     // Cipherer 内で使用されている Base64 は UnitTest では null しか返さないため
     // InstrumentedTest で行う
+
+    // endregion member / setup / tearDown
+
+    // region encode / decode
 
     @Test
     public void test_encode() {
@@ -41,4 +44,6 @@ public class CiphererInstrumentedTest {
 
         assertEquals(decodeResult, decode);
     }
+
+    // endregion encode / decode
 }
