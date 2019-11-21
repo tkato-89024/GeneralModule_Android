@@ -19,6 +19,7 @@
         </service>
 
         <activity android:name=".permission.PermissionerTestActivity" />
+        <activity android:name=".util.HandlerUtilTestActivity" />
     </application>
 
 </manifest>
