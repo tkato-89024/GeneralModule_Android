@@ -1,3 +1,12 @@
+/*
+ GeneralModule_Android Cipherer
+
+ Copyright (c) 2019 tkato
+
+ This software is released under the MIT License.
+ http://opensource.org/licenses/mit-license.php
+ */
+
 package jp.co.model.tkato.general_module.cipher;
 
 import android.util.Base64;
@@ -42,11 +51,6 @@ public class Cipherer {
             return result.trim(); // 行末に改行が含まれているため削除
 
         } catch (Exception e) {
-            // java.security.NoSuchAlgorithmException: Cannot find any provider supporting AES/CBC/PKCS7Padding
-            //   -> 修正: "AES/CBC/PKCS7Padding" -> "AES/CBC/PKCS5Padding"
-            // java.lang.RuntimeException: Method encodeToString in android.util.Base64 not mocked. See http://g.co/androidstudio/not-mocked for details.
-            //   -> 追記: build.gradle / testOptions { unitTests.returnDefaultValues = true }
-            // InvalidAlgorithmParameterException, InvalidKeyException
             e.printStackTrace();
             return null;
         }

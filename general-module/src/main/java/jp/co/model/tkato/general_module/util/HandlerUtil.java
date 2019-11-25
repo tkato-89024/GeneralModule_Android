@@ -1,3 +1,11 @@
+/*
+ GeneralModule_Android HandlerUtil
+
+ Copyright (c) 2019 tkato
+
+ This software is released under the MIT License.
+ http://opensource.org/licenses/mit-license.php
+ */
 package jp.co.model.tkato.general_module.util;
 
 import android.os.Handler;

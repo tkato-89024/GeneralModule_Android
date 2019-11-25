@@ -19,6 +19,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
-# https://qiita.com/darquro/items/5fceff5cdfbad72e83cb
--keep public class com.exsample.mylibrary.** { public *; }
