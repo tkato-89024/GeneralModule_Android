@@ -76,3 +76,22 @@ dependencies {
     // - EntityReadWriter
     implementation ("com.fasterxml.jackson.core:jackson-databind:${versions.jackson}")
 }
+
+// region maven repositories
+
+def repo = new File(rootDir, "repository")
+
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url:  "file://${repo.absolutePath}"
+            pom.version    = buildConfig.versionName
+            pom.groupId    = "jp.co.model.tkato"
+            pom.artifactId = "general_module"
+        }
+    }
+}
+
+// endregion maven repositories
