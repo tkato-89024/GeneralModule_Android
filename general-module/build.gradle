@@ -90,7 +90,7 @@ uploadArchives {
             repository url:  "file://${repo.absolutePath}"
             pom.version    = buildConfig.versionName
             pom.groupId    = "jp.co.model.tkato"
-            pom.artifactId = "general_module"
+            pom.artifactId = "general-module"
         }
     }
 }
