@@ -11,7 +11,7 @@
     <application>
 
         <service android:name=".permission.PermissionerTestNotificationListener"
-            android:label="@string/app_name"
+            android:label="GeneralModule Test PermissionerTestNotificationListener"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />

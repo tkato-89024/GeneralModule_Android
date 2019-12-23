@@ -12,7 +12,7 @@ import androidx.test.core.app.ActivityScenario;
 
 import java.util.concurrent.CountDownLatch;
 
-import jp.co.model.tkato.general_module.R;
+import jp.co.model.tkato.general_module.test.R;
 
 public class PermissionerTestActivity extends Activity {
 
