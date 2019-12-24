@@ -8,13 +8,18 @@ public class TreeFactory implements ITreeFactory {
 
     private boolean isDebug;
 
+    @SuppressWarnings("WeakerAccess")
+    public boolean isDebug() {
+        return isDebug;
+    }
+
     public TreeFactory(boolean isDebug) {
         this.isDebug = isDebug;
     }
 
     @Override
     public Timber.Tree create() {
-        if (isDebug) {
+        if (isDebug()) {
             return new DebugTree();
         } else {
             return new ReleaseTree();

@@ -10,12 +10,31 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import jp.co.model.tkato.general_module.log.factory.TreeFactory;
+import jp.co.model.tkato.general_module.log.tree.DebugTree;
+import jp.co.model.tkato.general_module.log.tree.ReleaseTree;
+import timber.log.Timber;
 
 import static org.junit.Assert.fail;
 
 @SmallTest
 @RunWith(AndroidJUnit4.class)
 public class LoggerTest {
+
+    public static class TestTreeFactory extends TreeFactory {
+
+        public TestTreeFactory(boolean isDebug) {
+            super(isDebug);
+        }
+
+        @Override
+        public Timber.Tree create() {
+            if (isDebug()) {
+                return new DebugTree(10);
+            } else {
+                return new ReleaseTree(10);
+            }
+        }
+    }
 
     @After
     public void tearDown() throws Exception {
@@ -40,6 +59,7 @@ public class LoggerTest {
         // LogCat を見て判断
         // null が設定され、ログは表示されなくなる
 
+        Logger.v(""); // 表示されない
         Logger.v("test v");
         Logger.d("test d");
         Logger.i("test i");
@@ -59,6 +79,8 @@ public class LoggerTest {
 
         Logger.initialize(true);
 
+        Logger.v("");
+        Logger.v("a");
         Logger.v("test v");
         Logger.d("test d");
         Logger.i("test i");
@@ -70,6 +92,7 @@ public class LoggerTest {
         Logger.i("test i %d", 1);
         Logger.w("test w %d", 1);
         Logger.e("test e %d", 1);
+        Logger.e(new IllegalArgumentException(), "test e %d", 1);
         Logger.wtf(new Throwable("Test Throwable"),"test wtf %d", 1);
 
 
@@ -79,6 +102,8 @@ public class LoggerTest {
 
         Logger.initialize(new TreeFactory(true));
 
+        Logger.v("");
+        Logger.v("a");
         Logger.v("test v");
         Logger.d("test d");
         Logger.i("test i");
@@ -90,6 +115,7 @@ public class LoggerTest {
         Logger.i("test i %d", 1);
         Logger.w("test w %d", 1);
         Logger.e("test e %d", 1);
+        Logger.e(new IllegalArgumentException(), "test e %d", 1);
         Logger.wtf(new Throwable("Test Throwable"),"test wtf %d", 1);
 
         Log.v(getClass().getSimpleName(), "<< end test_log_debug ======================================================");
@@ -108,6 +134,8 @@ public class LoggerTest {
 
         Logger.v("test v");
         Logger.d("test d");
+        Logger.i("");
+        Logger.i("a");
         Logger.i("test i");
         Logger.w("test w");
         Logger.e("test e");
@@ -117,6 +145,8 @@ public class LoggerTest {
         Logger.i("test i %d", 1);
         Logger.w("test w %d", 1);
         Logger.e("test e %d", 1);
+        Logger.e("test e %d", 1);
+        Logger.e(new IllegalArgumentException(), "test e %d", 1);
         Logger.wtf(new Throwable("Test Throwable"),"test wtf %d", 1);
 
         Log.v(getClass().getSimpleName(), "test_log_debug =============================================================");
@@ -127,6 +157,8 @@ public class LoggerTest {
 
         Logger.v("test v");
         Logger.d("test d");
+        Logger.i("");
+        Logger.i("a");
         Logger.i("test i");
         Logger.w("test w");
         Logger.e("test e");
@@ -136,8 +168,39 @@ public class LoggerTest {
         Logger.i("test i %d", 1);
         Logger.w("test w %d", 1);
         Logger.e("test e %d", 1);
+        Logger.e(new IllegalArgumentException(), "test e %d", 1);
         Logger.wtf(new Throwable("Test Throwable"),"test wtf %d", 1);
 
         Log.v(getClass().getSimpleName(), "<< end test_log_release ======================================================");
+    }
+
+    @SuppressWarnings("all")
+    @Test
+    public void test_log_改行チェック() {
+
+        Log.v(getClass().getSimpleName(), ">> start test_log_改行チェック ======================================================");
+
+        Logger.initialize(new TestTreeFactory(false));
+
+        Logger.v("");
+        Logger.v("a");
+        Logger.v("abcde");
+        Logger.v("あいうえお");
+        Logger.v("abcdefghijklmnopqrstu");
+        Logger.v("あいうえおかきくけこさしすせそたちつてとな");
+        Logger.v("あいうえお\nかきくけこ\nさしすせそたちつてとな");
+
+
+        Logger.initialize(new TestTreeFactory(true));
+
+        Logger.i("");
+        Logger.i("a");
+        Logger.i("abcde");
+        Logger.i("あいうえお");
+        Logger.i("abcdefghijklmnopqrstu");
+        Logger.i("あいうえおかきくけこさしすせそたちつてとな");
+        Logger.i("あいうえお\nかきくけこ\nさしすせそたちつてとな");
+
+        Log.v(getClass().getSimpleName(), "<< end test_log_改行チェック ======================================================");
     }
 }

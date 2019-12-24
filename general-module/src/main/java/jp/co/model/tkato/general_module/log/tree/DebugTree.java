@@ -6,31 +6,26 @@ import timber.log.Timber;
 
 public class DebugTree extends Timber.DebugTree {
 
-    private static final int MAX_LOG_LENGTH = 8000;
+    private int maxOneLineLength = Util.MAX_ONE_LINE_LENGTH;
 
+    public DebugTree() {
+    }
 
-    private boolean showLink = true;
-
-    private String callerInfo;
+    public DebugTree(int maxOneLineLength) {
+        this.maxOneLineLength = maxOneLineLength;
+    }
 
     @Override
     protected void log(int priority, String tag, @NonNull String message, Throwable t) {
-        if (showLink) {
-            callerInfo = Util.getCallerInfo(new Throwable().getStackTrace());
-        }
 
-        if (message.length() < MAX_LOG_LENGTH) {
-            printSingleLine(priority, tag, message + callerInfo);
+        final StackTraceElement[] elements = new Throwable().getStackTrace();
+
+        final String callerInfo = Util.getCallerInfo(elements);
+
+        if (message.length() < maxOneLineLength) {
+            Util.printSingleLine(priority, tag, message, callerInfo);
         } else {
-            printMultipleLines(priority, tag, message);
+            Util.printMultipleLines(maxOneLineLength, priority, tag, message, callerInfo);
         }
-    }
-
-    private void printMultipleLines(int priority, String tag, String message) {
-        Util.printMultipleLines(MAX_LOG_LENGTH, showLink, callerInfo, priority, tag, message);
-    }
-
-    private void printSingleLine(int priority, @NonNull String tag, String message) {
-        Util.printSingleLine(priority, tag, message);
     }
 }
