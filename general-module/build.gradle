@@ -106,6 +106,8 @@ dependencies {
     androidTestImplementation ("androidx.test.ext:junit:${versions.junitTest}")
     androidTestImplementation ("androidx.test.espresso:espresso-core:${versions.espresso}")
 
+    implementation ("com.jakewharton.timber:timber:${versions.timber}")
+
     // Gson の代わりの Json 操作
     // - EntityReadWriter
     implementation ("com.fasterxml.jackson.core:jackson-databind:${versions.jackson}")
