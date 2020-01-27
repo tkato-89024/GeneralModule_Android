@@ -391,6 +391,49 @@ public class ArrayUtilTest {
             }
         }
     }
+    @Test
+    public void test_reverse_ToArray_Int() {
 
+        final int[] array = new int[] {
+                0,
+                1,
+                2,
+                3
+        };
+        final List<Integer> resultValue = new ArrayList<Integer>() {{
+            add(3);
+            add(2);
+            add(1);
+            add(0);
+        }};
+
+        final int len = array.length;
+        final int[] list = ArrayUtil.reverseToArray(array);
+        for (int i = 0; i < len; i++) {
+            assertTrue(resultValue.get(i) == list[i]);
+        }
+    }
+    @Test
+    public void test_reverse_ToArray_Byte() {
+
+        final byte[] array = new byte[] {
+                0,
+                1,
+                2,
+                3
+        };
+        final int len = array.length;
+
+        final List<Byte> resultValue = new ArrayList<Byte>() {{
+            add((byte) 3);
+            add((byte) 2);
+            add((byte) 1);
+            add((byte) 0);
+        }};
+        final byte[] list = ArrayUtil.reverseToArray(array);
+        for (int i = 0; i < len; i++) {
+            assertTrue(resultValue.get(i) == list[i]);
+        }
+    }
     // endregion reverse
 }
