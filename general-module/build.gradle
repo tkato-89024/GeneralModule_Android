@@ -16,11 +16,19 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
     buildTypes {
         release {
             // ライブラリのため、難読化解除
             // minifyEnabled true
             // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
 
@@ -111,6 +119,8 @@ dependencies {
     // Gson の代わりの Json 操作
     // - EntityReadWriter
     implementation ("com.fasterxml.jackson.core:jackson-databind:${versions.jackson}")
+
+    testImplementation 'org.robolectric:robolectric:4.3'
 }
 
 // region maven repositories
@@ -130,4 +140,10 @@ uploadArchives {
     }
 }
 
+// コンパイル時に使用する文字コードをUTF-8で固定する
+tasks.withType(AbstractCompile).each { it.options.encoding = 'UTF-8' }
+tasks.withType(Test) {
+    systemProperty "file.encoding", "UTF-8"
+}
 // endregion maven repositories
+apply from: './jacoco.gradle'
