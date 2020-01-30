@@ -137,4 +137,8 @@ uploadArchives {
 
 // region jacoco (code coverage option)
 apply from: './jacoco.gradle'
+/**カバレッジ出力方法
+ * 1.Gradleウィンドウ>(プロジェクト名)>general-module>testing>jacocoDebugTestReportを実行
+ * 2.(プロジェクト名)\general-module\build\reports\jacoco\jacocoDebugTestReport\htmlフォルダにカバレッジレポートが出力される
+ */
 // endregion jacoco (code coverage option)
