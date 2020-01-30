@@ -169,6 +169,7 @@ public class StringUtilTest {
     // region split
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void test_split() {
 
         final String[] emptyValue = new String[] {};
@@ -179,7 +180,6 @@ public class StringUtilTest {
         final String[] resultValue = new String[] {"1", "2", "3", "4"};
 
         final String str1 = "1,2,3,4";
-        //noinspection ConstantConditions
         assertArrayEquals(resultValue, StringUtil.split(str1,null));
         assertArrayEquals(resultValue, StringUtil.split(str1));
 
@@ -191,6 +191,7 @@ public class StringUtilTest {
     }
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void test_splitList() {
 
         final List<String> emptyValue = new ArrayList<String>() {{
@@ -208,7 +209,6 @@ public class StringUtilTest {
 
         final String str1 = "1,2,3,4";
         assertEquals(resultValue, StringUtil.splitList(str1));
-        //noinspection ConstantConditions
         assertEquals(resultValue, StringUtil.splitList(str1,null));
 
         final String str2 = "1:2:3:4";
@@ -223,6 +223,7 @@ public class StringUtilTest {
     // region join
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void test_join() {
 
         //null
@@ -232,9 +233,7 @@ public class StringUtilTest {
 
         final String empValue = "";
 
-        //noinspection ConstantConditions
         assertEquals(empValue, StringUtil.join(emp));
-        //noinspection ConstantConditions
         assertEquals(empValue, StringUtil.join(empList));
 
         //strs.size < 1
@@ -260,9 +259,7 @@ public class StringUtilTest {
         assertEquals(resultValue1, StringUtil.join(strs));
         assertEquals(resultValue1, StringUtil.join(strList));
 
-        //noinspection ConstantConditions
         assertEquals(resultValue1, StringUtil.join(strs,null));
-        //noinspection ConstantConditions
         assertEquals(resultValue1, StringUtil.join(strList,null));
 
 
