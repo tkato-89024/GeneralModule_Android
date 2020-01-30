@@ -391,7 +391,7 @@ public class ArrayUtilTest {
             }
         }
     }
-    
+
     @Test
     public void test_reverse_ToArray_Int() {
 
@@ -411,7 +411,7 @@ public class ArrayUtilTest {
         final int len = array.length;
         final int[] list = ArrayUtil.reverseToArray(array);
         for (int i = 0; i < len; i++) {
-            assertTrue(resultValue.get(i) == list[i]);
+            assertEquals((int) resultValue.get(i), list[i]);
         }
     }
 
@@ -434,7 +434,7 @@ public class ArrayUtilTest {
         }};
         final byte[] list = ArrayUtil.reverseToArray(array);
         for (int i = 0; i < len; i++) {
-            assertTrue(resultValue.get(i) == list[i]);
+            assertEquals((byte) resultValue.get(i), list[i]);
         }
     }
 
