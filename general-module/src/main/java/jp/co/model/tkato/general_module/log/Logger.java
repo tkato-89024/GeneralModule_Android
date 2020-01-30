@@ -102,5 +102,7 @@ public final class Logger {
         Timber.wtf(t, message, args);
     }
 
+    private Logger(){}
+
     // endregion log
 }
