@@ -391,6 +391,7 @@ public class ArrayUtilTest {
             }
         }
     }
+    
     @Test
     public void test_reverse_ToArray_Int() {
 
@@ -413,6 +414,7 @@ public class ArrayUtilTest {
             assertTrue(resultValue.get(i) == list[i]);
         }
     }
+
     @Test
     public void test_reverse_ToArray_Byte() {
 
@@ -435,5 +437,6 @@ public class ArrayUtilTest {
             assertTrue(resultValue.get(i) == list[i]);
         }
     }
+
     // endregion reverse
 }

@@ -1,6 +1,5 @@
 package jp.co.model.tkato.general_module.util;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -70,11 +69,10 @@ public class StringUtilTest {
     @Test
     public void test_isDigit() {
 
-        assertFalse(StringUtil.isDigit(""));
-
         assertTrue(StringUtil.isDigit("12345"));
         assertTrue(StringUtil.isDigit("098765"));
 
+        assertFalse(StringUtil.isDigit(""));
         assertFalse(StringUtil.isDigit("-1234"));
         assertFalse(StringUtil.isDigit("+1234"));
         assertFalse(StringUtil.isDigit("1.234"));
@@ -83,13 +81,12 @@ public class StringUtilTest {
     @Test
     public void test_isNumeric() {
 
-        assertFalse(StringUtil.isNumeric(""));
-
         assertTrue(StringUtil.isNumeric("12345"));
         assertTrue(StringUtil.isNumeric("098765"));
         assertTrue(StringUtil.isNumeric("-1234"));
         assertTrue(StringUtil.isNumeric("1.234"));
 
+        assertFalse(StringUtil.isNumeric(""));
         assertFalse(StringUtil.isNumeric("+1234"));
     }
 
