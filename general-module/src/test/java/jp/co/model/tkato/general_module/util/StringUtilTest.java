@@ -72,6 +72,7 @@ public class StringUtilTest {
         assertTrue(StringUtil.isDigit("12345"));
         assertTrue(StringUtil.isDigit("098765"));
 
+        assertFalse(StringUtil.isDigit(""));
         assertFalse(StringUtil.isDigit("-1234"));
         assertFalse(StringUtil.isDigit("+1234"));
         assertFalse(StringUtil.isDigit("1.234"));
@@ -85,6 +86,7 @@ public class StringUtilTest {
         assertTrue(StringUtil.isNumeric("-1234"));
         assertTrue(StringUtil.isNumeric("1.234"));
 
+        assertFalse(StringUtil.isNumeric(""));
         assertFalse(StringUtil.isNumeric("+1234"));
     }
 
@@ -167,11 +169,18 @@ public class StringUtilTest {
     // region split
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void test_split() {
+
+        final String[] emptyValue = new String[] {};
+
+        final String emp = "";
+        assertArrayEquals(emptyValue, StringUtil.split(emp));
 
         final String[] resultValue = new String[] {"1", "2", "3", "4"};
 
         final String str1 = "1,2,3,4";
+        assertArrayEquals(resultValue, StringUtil.split(str1,null));
         assertArrayEquals(resultValue, StringUtil.split(str1));
 
         final String str2 = "1:2:3:4";
@@ -182,7 +191,14 @@ public class StringUtilTest {
     }
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void test_splitList() {
+
+        final List<String> emptyValue = new ArrayList<String>() {{
+        }};
+
+        final String emp = "";
+        assertEquals(emptyValue, StringUtil.splitList(emp));
 
         final List<String> resultValue = new ArrayList<String>() {{
             add("1");
@@ -193,6 +209,7 @@ public class StringUtilTest {
 
         final String str1 = "1,2,3,4";
         assertEquals(resultValue, StringUtil.splitList(str1));
+        assertEquals(resultValue, StringUtil.splitList(str1,null));
 
         final String str2 = "1:2:3:4";
         assertEquals(resultValue, StringUtil.splitList(str2, ":"));
@@ -206,8 +223,28 @@ public class StringUtilTest {
     // region join
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void test_join() {
 
+        //null
+        final String[] emp =  null;
+
+        final List<String> empList = null;
+
+        final String empValue = "";
+
+        assertEquals(empValue, StringUtil.join(emp));
+        assertEquals(empValue, StringUtil.join(empList));
+
+        //strs.size < 1
+        final String[] minus = new String[0];
+
+        final List<String> minusList = new ArrayList<>(0);
+
+        assertEquals(empValue, StringUtil.join(minus));
+        assertEquals(empValue, StringUtil.join(minusList));
+
+        //any value
         final String[] strs = new String[] {"1", "2", "3", "4"};
 
         final List<String> strList = new ArrayList<String>() {{
@@ -217,11 +254,13 @@ public class StringUtilTest {
             add("4");
         }};
 
-
         final String resultValue1 = "1,2,3,4";
 
         assertEquals(resultValue1, StringUtil.join(strs));
         assertEquals(resultValue1, StringUtil.join(strList));
+
+        assertEquals(resultValue1, StringUtil.join(strs,null));
+        assertEquals(resultValue1, StringUtil.join(strList,null));
 
 
         final String resultValue2 = "1:2:3:4";
