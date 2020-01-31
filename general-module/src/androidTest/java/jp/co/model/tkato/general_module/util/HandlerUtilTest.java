@@ -44,8 +44,8 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
     @SuppressWarnings("ConstantConditions")
     public void test_isCurrentThreadUI() throws InterruptedException {
 
-        //  Nullパターン
-        HandlerUtil.runOnUiThread(null,0);
+        // Nullの時はfalse
+        assertFalse(HandlerUtil.runOnUiThread(null,0),false);
 
         countSetup(1);
 
@@ -116,13 +116,7 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
 
     @SuppressWarnings("all")
     @Test
-    public void test_cancelRunOnUIThread() throws InterruptedException {
-        //  Nullパターン
-        HandlerUtil.cancelRunOnUIThread(null);
-
-        // !runnableMap.containsKey(runnableId)パターン
-        final String notId = "hoge";
-        HandlerUtil.cancelRunOnUIThread(notId);
+    public void test_cancelRunOnUIThread_実行されるケース() throws InterruptedException {
 
         // キャンセルできていなければ fail
 
@@ -142,6 +136,17 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
         assertEquals(0, HandlerUtil.currentRunnableCount());
 
         getLatch().await(1000, TimeUnit.MILLISECONDS);
+    }
+
+    @SuppressWarnings("all")
+    @Test
+    public void test_cancelRunOnUIThread_実行されないケース() throws InterruptedException {
+        //  Nullパターン
+        assertFalse(HandlerUtil.cancelRunOnUIThread(null));
+
+        // !runnableMap.containsKey(runnableId)パターン
+        final String notId = "hoge";
+        assertFalse(HandlerUtil.cancelRunOnUIThread(notId));
     }
 
     @SuppressWarnings("all")
