@@ -18,6 +18,7 @@ import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @MediumTest
@@ -44,8 +45,9 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
     @SuppressWarnings("ConstantConditions")
     public void test_isCurrentThreadUI() throws InterruptedException {
 
-        // Nullの時はfalse
-        assertFalse(HandlerUtil.runOnUiThread(null,0),false);
+        // UI スレッド上で実行する処理がNullの時
+        final Runnable nullpettern = null;
+        assertNull(HandlerUtil.runOnUiThread(nullpettern,0));
 
         countSetup(1);
 
@@ -144,7 +146,7 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
         //  Nullパターン
         assertFalse(HandlerUtil.cancelRunOnUIThread(null));
 
-        // !runnableMap.containsKey(runnableId)パターン
+        // 管理IDが誤っている場合
         final String notId = "hoge";
         assertFalse(HandlerUtil.cancelRunOnUIThread(notId));
     }
