@@ -15,7 +15,7 @@ public class SQLiteDatabaseQueryOrganizerTest {
 
     // region テスト用DB作成
     // DB作成
-    private DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+    private DatabaseTestHelper dbHelper = new DatabaseTestHelper(getApplicationContext());
     private SQLiteDatabase db = dbHelper.getWritableDatabase();
     private SQLiteDatabaseQueryOrganizer distinctNull = new SQLiteDatabaseQueryOrganizer(db,"tbl", null,"slctn", null,"grpby","hvng","ordby");
     private SQLiteDatabaseQueryOrganizer distinctFalse = new SQLiteDatabaseQueryOrganizer(db,"tbl",false,null,"slctn", null,"grpby","hvng","ordby");

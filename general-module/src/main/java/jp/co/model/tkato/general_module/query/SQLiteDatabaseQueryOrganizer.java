@@ -1,5 +1,4 @@
 package jp.co.model.tkato.general_module.query;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -41,6 +40,7 @@ public class SQLiteDatabaseQueryOrganizer extends AbstractQueryOrganizer {
         this.orderBy       = orderBy;
     }
 
+
     SQLiteDatabaseQueryOrganizer(@NonNull SQLiteDatabase db, @NonNull String table, boolean distinct, String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String groupBy, @Nullable String having, @Nullable String orderBy) {
         this.db            = db;
         this.table         = table;
@@ -63,10 +63,12 @@ public class SQLiteDatabaseQueryOrganizer extends AbstractQueryOrganizer {
             // String sql = SQLiteQueryBuilder.buildQueryString(distinct, table, columns, selection, groupBy, having, orderBy, limit);
 
             // String sql = SQLiteQueryBuilder.buildQueryString(distinct, table, projection, selection, groupBy, having, orderBy, null);
+            // Timber.v("query length > 0: sql = " + sql);
             return db.query(distinct, table, projection, selection, selectionArgs, groupBy, having, orderBy + " LIMIT " + length + " OFFSET " + offset, null);
 
         } else {
             // String sql = SQLiteQueryBuilder.buildQueryString(distinct, table, projection, selection, groupBy, having, orderBy, null);
+            // Timber.v("query length <= 0: sql = " + sql);
             return db.query(distinct, table, projection, selection, selectionArgs, groupBy, having, orderBy, null);
         }
     }

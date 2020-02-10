@@ -4,10 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseTestHelper extends SQLiteOpenHelper {
 
     //コンストラクタ
-    DatabaseHelper(Context context){
+    DatabaseTestHelper(Context context){
         super(context,"DB_TEST", null, 1);
     }
 
