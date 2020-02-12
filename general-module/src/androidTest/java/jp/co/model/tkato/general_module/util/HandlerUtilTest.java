@@ -174,5 +174,6 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
         assertEquals(0, HandlerUtil.currentRunnableCount());
 
         getLatch().await(1500, TimeUnit.MILLISECONDS);
+        
     }
 }
