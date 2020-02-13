@@ -18,6 +18,7 @@ import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @MediumTest
@@ -41,7 +42,12 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
     }
 
     @Test
+    @SuppressWarnings("ConstantConditions")
     public void test_isCurrentThreadUI() throws InterruptedException {
+
+        // UI スレッド上で実行する処理がNullの時
+        final Runnable nullpettern = null;
+        assertNull(HandlerUtil.runOnUiThread(nullpettern,0));
 
         countSetup(1);
 
@@ -112,7 +118,7 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
 
     @SuppressWarnings("all")
     @Test
-    public void test_cancelRunOnUIThread() throws InterruptedException {
+    public void test_cancelRunOnUIThread_実行されるケース() throws InterruptedException {
 
         // キャンセルできていなければ fail
 
@@ -132,6 +138,17 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
         assertEquals(0, HandlerUtil.currentRunnableCount());
 
         getLatch().await(1000, TimeUnit.MILLISECONDS);
+    }
+
+    @SuppressWarnings("all")
+    @Test
+    public void test_cancelRunOnUIThread_実行されないケース() throws InterruptedException {
+        //  Nullパターン
+        assertFalse(HandlerUtil.cancelRunOnUIThread(null));
+
+        // 管理IDが誤っている場合
+        final String notId = "hoge";
+        assertFalse(HandlerUtil.cancelRunOnUIThread(notId));
     }
 
     @SuppressWarnings("all")
@@ -157,5 +174,6 @@ public class HandlerUtilTest extends BaseInstrumentedTest {
         assertEquals(0, HandlerUtil.currentRunnableCount());
 
         getLatch().await(1500, TimeUnit.MILLISECONDS);
+        
     }
 }

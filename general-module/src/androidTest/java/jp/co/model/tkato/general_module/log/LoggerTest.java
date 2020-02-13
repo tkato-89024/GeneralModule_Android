@@ -59,6 +59,7 @@ public class LoggerTest {
         // LogCat を見て判断
         // null が設定され、ログは表示されなくなる
 
+        Logger.initialize(null); // 表示されない
         Logger.v(""); // 表示されない
         Logger.v("test v");
         Logger.d("test d");

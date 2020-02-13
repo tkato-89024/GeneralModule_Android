@@ -103,4 +103,6 @@ public final class Logger {
     }
 
     // endregion log
+
+    private Logger(){}
 }
