@@ -86,5 +86,4 @@ public class CursorerTest {
     }
 
     // endregion 異常系テスト
-    
 }
