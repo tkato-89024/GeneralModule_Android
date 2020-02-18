@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseTestHelper extends SQLiteOpenHelper {
 
     //コンストラクタ
-    DatabaseTestHelper(Context context){
+    public DatabaseTestHelper(Context context){
         super(context,"DB_TEST", null, 1);
     }
 

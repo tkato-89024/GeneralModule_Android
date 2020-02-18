@@ -18,7 +18,8 @@ import jp.co.model.tkato.general_module.query.IQueryOrganizer;
 public class Cursorer implements ICursorer {
 
     @Nullable
-    IQueryOrganizer organizer;
+    @SuppressWarnings("all")
+    public IQueryOrganizer organizer;
 
     @Nullable
     protected Cursor cursor;
@@ -33,23 +34,29 @@ public class Cursorer implements ICursorer {
         return cursor;
     }
 
-    Cursorer() {
+    @SuppressWarnings("all")
+    public Cursorer() {
 
     }
 
-    Cursorer(@Nullable IQueryOrganizer organizer) {
+    @SuppressWarnings("all")
+    public Cursorer(@Nullable IQueryOrganizer organizer) {
         this.organizer = organizer;
     }
 
     // 一時的に query を作成し取得
-    int getCountNewCursor(@NonNull final IQueryOrganizer organizer) {
+    @SuppressWarnings("all")
+    public int getCountNewCursor(@NonNull final IQueryOrganizer organizer) {
 
-        try (Cursor ignored = organizer.query()) {
-            assert cursor != null;
+        if (null == organizer) {
+            //Logger.w("query fail: null organizer");
+            return -1;
+        }
+
+        try (Cursor c = organizer.query()) {
             return cursor.getCount();
-
         } catch (Exception e) {
-//       Timber.w("query fail: " + e.getLocalizedMessage());
+            //Logger.w("query fail: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
 
@@ -58,8 +65,9 @@ public class Cursorer implements ICursorer {
 
     // query 実行後に取得可能
     public int getCountByCursor() {
+
         if (null == cursor) {
-//       Timber.w("getCount fail: null cursor");
+            //Logger.w("getCount fail: null cursor");
             return -1;
         }
         return cursor.getCount();
@@ -71,10 +79,10 @@ public class Cursorer implements ICursorer {
 
     public Cursorer query(final long length, final long offset) {
 
-//        Timber.v("query: length = " + length + ", offset = " + offset);
+        //Logger.v("query: length = " + length + ", offset = " + offset);
 
         if (null == organizer) {
-//        Timber.w("query fail: null organizer");
+            //Logger.w("query fail: null organizer");
             return this;
         }
 
@@ -82,7 +90,7 @@ public class Cursorer implements ICursorer {
             this.cursor = organizer.query(length, offset);
 
         } catch (Exception e) {
-//       Timber.w("query fail: " + e.getLocalizedMessage());
+            //Logger.w("query fail: " + e.getLocalizedMessage());
             e.printStackTrace();
         }
 

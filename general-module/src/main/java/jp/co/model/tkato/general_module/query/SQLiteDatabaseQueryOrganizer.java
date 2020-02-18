@@ -28,7 +28,7 @@ public class SQLiteDatabaseQueryOrganizer extends AbstractQueryOrganizer {
         return having;
     }
 
-    SQLiteDatabaseQueryOrganizer(@NonNull SQLiteDatabase db, @NonNull String table, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String groupBy, @Nullable String having, @Nullable String orderBy) {
+    public SQLiteDatabaseQueryOrganizer(@NonNull SQLiteDatabase db, @NonNull String table, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String groupBy, @Nullable String having, @Nullable String orderBy) {
         this.db            = db;
         this.table         = table;
         this.distinct      = false;
