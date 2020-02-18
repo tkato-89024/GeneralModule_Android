@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import jp.co.model.tkato.general_module.query.ContentResolverQueryOrganizer;
 import jp.co.model.tkato.general_module.query.IQueryOrganizer;
 
+@SuppressWarnings("all")
 public class ImageCursorer extends Cursorer implements IContentResolverCursorer {
 
     public interface IForEach {
