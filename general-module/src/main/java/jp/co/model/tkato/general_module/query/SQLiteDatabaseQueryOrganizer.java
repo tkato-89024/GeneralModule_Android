@@ -55,20 +55,8 @@ public class SQLiteDatabaseQueryOrganizer extends AbstractQueryOrganizer {
 
     public Cursor query(long length, long offset) {
         if (length > 0) {
-
-            // query(boolean distinct, String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit);
-            // queryWithFactory(null, distinct, table, columns, selection, selectionArgs, groupBy, having, orderBy, limit, null);
-
-            // queryWithFactory(CursorFactory cursorFactory, boolean distinct, String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit, CancellationSignal cancellationSignal)
-            // String sql = SQLiteQueryBuilder.buildQueryString(distinct, table, columns, selection, groupBy, having, orderBy, limit);
-
-            // String sql = SQLiteQueryBuilder.buildQueryString(distinct, table, projection, selection, groupBy, having, orderBy, null);
-            // Timber.v("query length > 0: sql = " + sql);
             return db.query(distinct, table, projection, selection, selectionArgs, groupBy, having, orderBy + " LIMIT " + length + " OFFSET " + offset, null);
-
         } else {
-            // String sql = SQLiteQueryBuilder.buildQueryString(distinct, table, projection, selection, groupBy, having, orderBy, null);
-            // Timber.v("query length <= 0: sql = " + sql);
             return db.query(distinct, table, projection, selection, selectionArgs, groupBy, having, orderBy, null);
         }
     }
