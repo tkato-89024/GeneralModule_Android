@@ -49,7 +49,7 @@ public class ArrayUtilTest {
         assertNull(ArrayUtil.toList(objectArray));
         assertNull(ArrayUtil.reverseToList(objectArray));
 
-        // Null の場合 False が変える
+        // Null の場合 False が返る
         final List<Object> objectList = null;
         assertFalse(ArrayUtil.reverse(objectList));
     }
