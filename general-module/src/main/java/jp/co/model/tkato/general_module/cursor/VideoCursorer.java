@@ -1,11 +1,3 @@
-/*
- GeneralModule_Android Cipherer
-
- Copyright (c) 2019 tkato
-
- This software is released under the MIT License.
- http://opensource.org/licenses/mit-license.php
- */
 package jp.co.model.tkato.general_module.cursor;
 
 import android.content.Context;
@@ -15,6 +7,7 @@ import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import jp.co.model.tkato.general_module.log.Logger;
 import jp.co.model.tkato.general_module.query.ContentResolverQueryOrganizer;
 import jp.co.model.tkato.general_module.query.IQueryOrganizer;
 
@@ -88,18 +81,18 @@ public class VideoCursorer extends Cursorer implements IContentResolverCursorer 
 
     public void forEach(@Nullable final Context activityContext, final boolean isReadVideoSize, @Nullable final IForEach action) {
         if (null == action) {
-//            Timber.w("forEach fail: null action");
+            Logger.w("forEach fail: null action");
             return;
         } else if (null == cursor) {
-//            Timber.w("forEach fail: null cursor");
+            Logger.w("forEach fail: null cursor");
             return;
         } else if (0 == cursor.getCount()) {
-//            Timber.w("forEach fail: cursor count 0");
+            Logger.w("forEach fail: cursor count 0");
             return;
         }
         try {
             if (!cursor.moveToFirst()) {
-//                Timber.w("forEach fail: moveToFirst");
+                Logger.w("forEach fail: moveToFirst");
                 return;
             }
             do {
@@ -142,7 +135,6 @@ public class VideoCursorer extends Cursorer implements IContentResolverCursorer 
             } while (cursor.moveToNext());
 
         } catch (Exception e) {
-//            Timber.w("forEach fail: " + e.getLocalizedMessage());
             e.printStackTrace();
 
         } finally {

@@ -24,7 +24,7 @@ public class DatabaseTestHelper extends SQLiteOpenHelper {
     // テスト用DBにデータを挿入する
     /* ●テスト用テーブル(主キー：id)
      *　 _______________
-     *  ｜id　|　text　 |
+     *  ｜_id |FruitName|
      *　｜----+---------|
      *　｜ 1　|　Apple　|
      *　｜ 2　|　Banana |
